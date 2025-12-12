@@ -1,0 +1,27 @@
+.page-shell {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  width: min(520px, 100%);
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.1);
+  border: 1px solid #e6eaf5;
+}
+
+.auth-card header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.auth-card header p {
+  margin: 0;
+  color: #64748b;
+}

@@ -1,38 +1,433 @@
-.App {
-  text-align: center;
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --bg: #020617;
+  --bg-elevated: #0b1120;
+  --bg-soft: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #1f2937;
+  --danger: #f97373;
+  --success: #4ade80;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
+  color: var(--text);
+}
+
+.app-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+/* Top nav links: Stores, New Store */
+.nav-link {
+  position: relative;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+.nav-link:hover {
+  color: #e5e7eb;
+  background: rgba(37, 99, 235, 0.18);
+  transform: translateY(-1px);
+}
+
+.nav-link:active {
+  transform: translateY(0);
+}
+
+/* Optional: highlight active page */
+.nav-link-active {
+  color: #e5e7eb;
+  background: rgba(37, 99, 235, 0.35);
+}
+
+/* Make logout match the pill style */
+.button-logout {
+  border-radius: 999px;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: #f9fafb;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.button-logout:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 1);
+}
+
+.button-logout:active {
+  transform: translateY(0);
+}
+
+
+.app-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.app-nav-left,
+.app-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 18px;
+  background: linear-gradient(90deg, #3b82f6, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.app-link:hover {
+  color: var(--text);
+}
+
+.app-main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto 32px;
+}
+
+.button,
+button {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--primary);
+  color: white;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+button:hover,
+.button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+button:active,
+.button:active {
+  transform: translateY(0);
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: var(--bg-soft);
+  color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.card {
+  background: radial-gradient(circle at top left, #1f2937 0, #020617 55%);
+  border-radius: 16px;
+  padding: 22px 22px 18px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.error-text {
+  color: var(--danger);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.success-text {
+  color: var(--success);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.table-wrapper {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+thead {
+  background: #020617;
+}
+
+th,
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+th {
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+tbody tr:hover {
+  background: rgba(31, 41, 55, 0.7);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: rgba(37, 99, 235, 0.12);
+  color: #bfdbfe;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+.stores-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.btn-new-store {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #e5e7eb;
+  background-image: linear-gradient(90deg, #3b82f6, #a855f7);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background-position 0.3s ease;
+  background-size: 200% 100%;
+  background-position: 0% 50%;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-new-store:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 1);
+  background-position: 100% 50%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn-new-store:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+}
+
+/* Mobile tweak: stack title and button */
+@media (max-width: 640px) {
+  .stores-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  to {
-    transform: rotate(360deg);
+
+  .btn-new-store {
+    width: 100%;
+    justify-content: center;
   }
+}
+
+/* Responsive tweaks */
+
+@media (max-width: 768px) {
+  .app-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .app-main {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 18px 16px 14px;
+  }
+
+  .app-nav-left {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .app-nav-right {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 8px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 16px;
+  }
+
+  .app-link {
+    font-size: 13px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+}
+.signup-card {
+  border-image: linear-gradient(90deg, #3b82f6, #a855f7) 1;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.signup-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.button-primary-wide {
+  width: 100%;
+  background-image: linear-gradient(90deg, #3b82f6, #a855f7);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+}
+
+@media (min-width: 640px) {
+  .signup-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 18px;
+  }
+
+  .signup-form-grid .form-group:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .signup-form-grid .button-primary-wide {
+    grid-column: 1 / -1;
+  }
+}
+.profile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(31, 41, 55, 0.8);
+}
+
+.profile-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.profile-value {
+  font-size: 14px;
+  font-weight: 500;
 }

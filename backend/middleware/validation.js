@@ -26,8 +26,8 @@ const validateSignUp = [
 const validateCreateUser = [
   body('name')
     .trim()
-    .isLength({ min: 20, max: 60 })
-    .withMessage('Name must be between 20 and 60 characters'),
+    .isLength({ min: 1, max: 20 })
+    .withMessage('Name must be between 1 and 20 characters'),
   body('email')
     .isEmail()
     .withMessage('Invalid email format'),

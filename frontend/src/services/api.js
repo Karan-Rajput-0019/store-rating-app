@@ -1,4 +1,6 @@
 import axios from "axios";
+// signup
+export const signup = (data) => api.post("/auth/signup", data);
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000/api",

@@ -23,10 +23,13 @@ const register = async (req, res) => {
         'INSERT INTO users (name, email, password, address, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
         [name, email, hashedPassword, address, 'normal_user'],
         (err, result) => {
-          if (err) return res.status(500).json({ message: 'Database error' });
+          if (err) {
+            console.error('REGISTER DB ERROR:', err);
+            return res.status(500).json({ message: 'Database error' });
+          }
           res.status(201).json({
             message: 'User registered successfully',
-            userId: result.rows[0].id
+            userId: result.rows[0].id,
           });
         }
       );
@@ -73,8 +76,8 @@ const login = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
-          address: user.address
-        }
+          address: user.address,
+        },
       });
     });
   } catch (error) {
@@ -119,5 +122,5 @@ const changePassword = async (req, res) => {
 module.exports = {
   register,
   login,
-  changePassword
+  changePassword,
 };

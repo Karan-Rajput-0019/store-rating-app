@@ -7,33 +7,38 @@ const db = require('../config/database');
 const register = async (req, res) => {
   try {
     const { name, email, password, address } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
 
     // Check if user exists
-    db.query('SELECT email FROM users WHERE email = $1', [email], async (err, result) => {
-      if (err) return res.status(500).json({ message: 'Database error' });
-      if (result.rows.length > 0) {
-        return res.status(400).json({ message: 'Email already in use' });
-      }
-
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Insert user
-      db.query(
-        'INSERT INTO users (name, email, password, address, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-        [name, email, hashedPassword, address, 'normal_user'],
-        (err, result) => {
-          if (err) {
-            console.error('REGISTER DB ERROR:', err);
-            return res.status(500).json({ message: 'Database error' });
-          }
-          res.status(201).json({
-            message: 'User registered successfully',
-            userId: result.rows[0].id,
-          });
+    db.query(
+      'SELECT email FROM users WHERE email = $1',
+      [normalizedEmail],
+      async (err, result) => {
+        if (err) return res.status(500).json({ message: 'Database error' });
+        if (result.rows.length > 0) {
+          return res.status(400).json({ message: 'Email already in use' });
         }
-      );
-    });
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Insert user
+        db.query(
+          'INSERT INTO users (name, email, password, address, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+          [name, normalizedEmail, hashedPassword, address, 'normal_user'],
+          (err, insertResult) => {
+            if (err) {
+              console.error('REGISTER DB ERROR:', err);
+              return res.status(500).json({ message: 'Database error' });
+            }
+            res.status(201).json({
+              message: 'User registered successfully',
+              userId: insertResult.rows[0].id,
+            });
+          }
+        );
+      }
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -42,13 +47,16 @@ const register = async (req, res) => {
 // Login
 const login = async (req, res) => {
   try {
-    console.log('LOGIN BODY:', req.body); // debug: what frontend sends
-    const { email, password } = req.body;
+    console.log('LOGIN BODY:', req.body); // debug
+    let { email, password } = req.body;
+
+    // normalize email
+    email = email.trim().toLowerCase();
 
     db.query('SELECT * FROM users WHERE email = $1', [email], async (err, result) => {
       if (err) return res.status(500).json({ message: 'Database error' });
 
-      console.log('LOGIN DB ROWS:', result.rows); // debug: what DB returns
+      console.log('LOGIN DB ROWS:', result.rows); // debug
 
       if (result.rows.length === 0) {
         return res.status(401).json({ message: 'Invalid email or password' });
@@ -56,7 +64,7 @@ const login = async (req, res) => {
 
       const user = result.rows[0];
       const match = await bcrypt.compare(password, user.password);
-      console.log('LOGIN PASSWORD MATCH:', match); // debug: true/false
+      console.log('LOGIN PASSWORD MATCH:', match); // debug
 
       if (!match) {
         return res.status(401).json({ message: 'Invalid email or password' });
@@ -91,29 +99,36 @@ const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
     const userId = req.user.id;
 
-    db.query('SELECT password FROM users WHERE id = $1', [userId], async (err, result) => {
-      if (err) return res.status(500).json({ message: 'Database error' });
+    db.query(
+      'SELECT password FROM users WHERE id = $1',
+      [userId],
+      async (err, result) => {
+        if (err) return res.status(500).json({ message: 'Database error' });
 
-      if (!result.rows.length) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      const passwordMatch = await bcrypt.compare(currentPassword, result.rows[0].password);
-      if (!passwordMatch) {
-        return res.status(401).json({ message: 'Current password is incorrect' });
-      }
-
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-      db.query(
-        'UPDATE users SET password = $1 WHERE id = $2',
-        [hashedPassword, userId],
-        (err) => {
-          if (err) return res.status(500).json({ message: 'Database error' });
-          res.json({ message: 'Password changed successfully' });
+        if (!result.rows.length) {
+          return res.status(404).json({ message: 'User not found' });
         }
-      );
-    });
+
+        const passwordMatch = await bcrypt.compare(
+          currentPassword,
+          result.rows[0].password
+        );
+        if (!passwordMatch) {
+          return res.status(401).json({ message: 'Current password is incorrect' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        db.query(
+          'UPDATE users SET password = $1 WHERE id = $2',
+          [hashedPassword, userId],
+          (err) => {
+            if (err) return res.status(500).json({ message: 'Database error' });
+            res.json({ message: 'Password changed successfully' });
+          }
+        );
+      }
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -124,3 +139,4 @@ module.exports = {
   login,
   changePassword,
 };
+

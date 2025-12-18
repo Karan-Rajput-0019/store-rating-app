@@ -1,147 +1,61 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import authService from '../services/authService'
-import '../styles/Auth.css'
+import api from './api'
 
-export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+const handleError = (error, defaultMessage) => {
+  const msg =
+    error?.response?.data?.errors?.[0]?.msg ||
+    error?.response?.data?.message ||
+    defaultMessage
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    try {
-      const data = await authService.login(email, password) // data === res.data
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
-      navigate('/dashboard')
-    } catch (err) {
-      setError(err.message || 'Invalid email or password')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div className="auth-wrapper">
-      <div className="auth-background">
-        <div className="floating-shape shape-1"></div>
-        <div className="floating-shape shape-2"></div>
-        <div className="floating-shape shape-3"></div>
-      </div>
-
-      <div className="auth-container">
-        <div className="auth-card login-card">
-          <div className="auth-header">
-            <div className="logo-circle">
-              <span className="logo-icon">🏪</span>
-            </div>
-            <h1>RateHub</h1>
-            <p className="tagline">Discover Amazing Stores</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="form-group">
-              <div className="input-wrapper">
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                  className="auth-input"
-                />
-                <span className="input-icon">✉️</span>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <div className="input-wrapper">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                  className="auth-input"
-                />
-                <span className="input-icon">🔐</span>
-              </div>
-            </div>
-
-            {error && (
-              <div className="error-alert">
-                <span className="error-icon">⚠️</span>
-                <p>{error}</p>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-login"
-            >
-              {loading ? (
-                <>
-                  <span className="spinner"></span>
-                  Logging in...
-                </>
-              ) : (
-                <>
-                  Sign In
-                  <span className="btn-arrow">→</span>
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="auth-divider">
-            <span>New to RateHub?</span>
-          </div>
-
-          <Link to="/register" className="btn-secondary">
-            <span>Create Account</span>
-            <span className="plus-icon">+</span>
-          </Link>
-
-          <div className="auth-features">
-            <div className="feature">
-              <span>⭐</span>
-              <p>Rate stores</p>
-            </div>
-            <div className="feature">
-              <span>💬</span>
-              <p>Leave reviews</p>
-            </div>
-            <div className="feature">
-              <span>🔍</span>
-              <p>Discover gems</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="auth-illustration">
-          <div className="illustration-content">
-            <div className="store-card-demo">
-              <div className="demo-star">⭐⭐⭐⭐⭐</div>
-              <div className="demo-text">Amazing Experience</div>
-            </div>
-            <div className="user-avatars">
-              <div className="avatar avatar-1">👤</div>
-              <div className="avatar avatar-2">👥</div>
-              <div className="avatar avatar-3">👫</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  const err = new Error(msg)
+  err.original = error
+  throw err
 }
 
+export const authService = {
+  register: async (data) => {
+    try {
+      const res = await api.post('/auth/register', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        address: data.address,
+      })
+      return res.data
+    } catch (error) {
+      handleError(error, 'Registration failed')
+    }
+  },
+
+  // REPLACE your current login with this
+  login: async (email, password) => {
+    console.log('LOGIN FROM UI:', `"${email}"`)
+    try {
+      const res = await api.post('/auth/login', {
+        email: email.trim(),
+        password,
+      })
+      return res.data
+    } catch (error) {
+      handleError(error, 'Login failed')
+    }
+  },
+
+  changePassword: async (currentPassword, newPassword) => {
+    try {
+      const res = await api.post('/auth/change-password', {
+        currentPassword,
+        newPassword,
+      })
+      return res.data
+    } catch (error) {
+      handleError(error, 'Password change failed')
+    }
+  },
+
+  logout: () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+  },
+}
+
+export default authService

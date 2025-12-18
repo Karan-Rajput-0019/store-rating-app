@@ -16,12 +16,17 @@ export default function Login() {
     setLoading(true)
 
     try {
-      const res = await authService.login(email, password)
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('user', JSON.stringify(res.data.user))
+      // authService.login returns res.data
+      const data = await authService.login(email, password)
+
+      // success: clear error and store auth data
+      setError('')
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password')
+      // handleError in authService throws Error with message
+      setError(err.message || 'Invalid email or password')
     } finally {
       setLoading(false)
     }
@@ -83,9 +88,9 @@ export default function Login() {
               </div>
             )}
 
-            <button 
-              type="submit" 
-              disabled={loading} 
+            <button
+              type="submit"
+              disabled={loading}
               className="btn-login"
             >
               {loading ? (
@@ -144,3 +149,4 @@ export default function Login() {
     </div>
   )
 }
+

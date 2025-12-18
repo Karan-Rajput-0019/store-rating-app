@@ -4,6 +4,8 @@ import authService from '../services/authService'
 import ratingService from '../services/ratingService'
 import '../styles/Dashboard.css'
 
+const STREAK_TARGET = 3
+
 export default function Dashboard() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
@@ -17,6 +19,7 @@ export default function Dashboard() {
   })
   const [passwordError, setPasswordError] = useState('')
   const [passwordSuccess, setPasswordSuccess] = useState('')
+  const [streakCount, setStreakCount] = useState(0)
 
   useEffect(() => {
     const userData = localStorage.getItem('user')
@@ -26,6 +29,7 @@ export default function Dashboard() {
     }
     setUser(JSON.parse(userData))
     fetchUserRatings()
+    fetchStreak()
   }, [navigate])
 
   const fetchUserRatings = async () => {
@@ -36,6 +40,15 @@ export default function Dashboard() {
       console.error('Error fetching ratings:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchStreak = async () => {
+    try {
+      const res = await ratingService.getMyRatingCount() // hit /ratings/me/count
+      setStreakCount(res.data.total || 0)
+    } catch (err) {
+      console.error('Error fetching streak count:', err)
     }
   }
 
@@ -85,6 +98,8 @@ export default function Dashboard() {
     ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
     : 0
 
+  const streakProgress = Math.min(100, (streakCount / STREAK_TARGET) * 100)
+
   return (
     <div className="dashboard-wrapper">
       {/* Header */}
@@ -99,7 +114,7 @@ export default function Dashboard() {
       </div>
 
       <div className="dashboard-container">
-        {/* Profile Card */}
+        {/* Profile + streak row */}
         <section className="profile-section">
           <div className="profile-card">
             <div className="profile-avatar">
@@ -108,17 +123,51 @@ export default function Dashboard() {
             <div className="profile-info">
               <h2>{user.name}</h2>
               <p className="profile-email">✉️ {user.email}</p>
-              <p className="profile-address">📍 {user.address || 'Address not provided'}</p>
+              <p className="profile-address">
+                📍 {user.address || 'Address not provided'}
+              </p>
               <p className="profile-role">
                 🎖️ Role: <span className="role-badge">{user.role || 'User'}</span>
               </p>
             </div>
-            <button 
+            <button
               onClick={() => setShowPasswordForm(!showPasswordForm)}
               className="btn-edit-password"
             >
               {showPasswordForm ? '✕ Cancel' : '🔒 Change Password'}
             </button>
+          </div>
+
+          {/* Gamified rating streak card */}
+          <div className="streak-card">
+            <h2>Your rating streak</h2>
+            <p className="streak-subtitle">
+              Rate {STREAK_TARGET} stores to unlock your first badge.
+            </p>
+
+            <div className="streak-progress">
+              <div
+                className="streak-progress-fill"
+                style={{ width: `${streakProgress}%` }}
+              />
+            </div>
+
+            <div className="streak-stats">
+              <span className="streak-label">All‑time ratings</span>
+              <span className="streak-value">
+                {Math.min(streakCount, STREAK_TARGET)} / {STREAK_TARGET} stores
+              </span>
+            </div>
+
+            <div className="streak-badge-preview">
+              <span className="badge-icon">🏅</span>
+              <div>
+                <p className="badge-title">Explorer badge</p>
+                <p className="badge-text">
+                  Keep rating to grow your streak and unlock more badges.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Password Change Form */}
@@ -132,10 +181,12 @@ export default function Dashboard() {
                     type="password"
                     placeholder="Enter your current password"
                     value={passwordData.currentPassword}
-                    onChange={(e) => setPasswordData({
-                      ...passwordData,
-                      currentPassword: e.target.value
-                    })}
+                    onChange={(e) =>
+                      setPasswordData({
+                        ...passwordData,
+                        currentPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -146,10 +197,12 @@ export default function Dashboard() {
                     type="password"
                     placeholder="Enter new password"
                     value={passwordData.newPassword}
-                    onChange={(e) => setPasswordData({
-                      ...passwordData,
-                      newPassword: e.target.value
-                    })}
+                    onChange={(e) =>
+                      setPasswordData({
+                        ...passwordData,
+                        newPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -160,16 +213,22 @@ export default function Dashboard() {
                     type="password"
                     placeholder="Confirm new password"
                     value={passwordData.confirmPassword}
-                    onChange={(e) => setPasswordData({
-                      ...passwordData,
-                      confirmPassword: e.target.value
-                    })}
+                    onChange={(e) =>
+                      setPasswordData({
+                        ...passwordData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
 
-                {passwordError && <div className="error-message">❌ {passwordError}</div>}
-                {passwordSuccess && <div className="success-message">✅ {passwordSuccess}</div>}
+                {passwordError && (
+                  <div className="error-message">❌ {passwordError}</div>
+                )}
+                {passwordSuccess && (
+                  <div className="success-message">✅ {passwordSuccess}</div>
+                )}
 
                 <button type="submit" className="btn-update-password">
                   Update Password
@@ -198,7 +257,9 @@ export default function Dashboard() {
           <div className="stat-card">
             <div className="stat-icon">💬</div>
             <div className="stat-content">
-              <div className="stat-number">{ratings.filter(r => r.comment).length}</div>
+              <div className="stat-number">
+                {ratings.filter((r) => r.comment).length}
+              </div>
               <div className="stat-label">Reviews Written</div>
             </div>
           </div>
@@ -230,7 +291,7 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="ratings-grid">
-              {ratings.map(rating => (
+              {ratings.map((rating) => (
                 <div key={rating.id} className="rating-item">
                   <div className="rating-top">
                     <h3>{rating.store_name}</h3>

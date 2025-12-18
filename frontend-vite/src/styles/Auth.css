@@ -2389,3 +2389,83 @@ body {
     padding: var(--space-24) var(--space-12);
   }
 }
+.india-map-panel {
+  color: #fff;
+  padding: 28px 30px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top, #26355a 0%, #090b19 55%, #050612 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  max-width: 360px;
+}
+
+.india-map-panel h2 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.india-map-text {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 18px;
+}
+
+.india-map-wrapper {
+  position: relative;
+  height: 210px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Abstract India silhouette */
+.india-map-shape {
+  width: 170px;
+  height: 210px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(41, 121, 255, 0.4);
+}
+
+/* Pulsing pins over the shape */
+.map-pin {
+  position: absolute;
+  font-size: 10px;
+  color: #ffcf6b;
+  filter: drop-shadow(0 0 8px rgba(255, 207, 107, 0.8));
+  animation: pinPulse 2.2s ease-in-out infinite;
+}
+
+.pin-north { top: 18%; left: 48%; }
+.pin-west  { top: 45%; left: 26%; }
+.pin-south { top: 72%; left: 50%; }
+.pin-east  { top: 52%; left: 70%; }
+
+@keyframes pinPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.6); opacity: 0.4; }
+}
+
+.india-map-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.map-tag {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(3, 7, 18, 0.6);
+  backdrop-filter: blur(12px);
+  cursor: default;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.map-tag:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}

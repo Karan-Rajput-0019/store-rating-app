@@ -18,9 +18,9 @@ export default function Register() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }))
   }
 
@@ -48,14 +48,16 @@ export default function Register() {
     setLoading(true)
 
     try {
+      const normalizedEmail = formData.email.trim().toLowerCase()
+
       await authService.register({
         name: formData.name,
-        email: formData.email,
+        email: normalizedEmail,
         password: formData.password,
         address: formData.address,
       })
 
-      const res = await authService.login(formData.email, formData.password)
+      const res = await authService.login(normalizedEmail, formData.password)
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user', JSON.stringify(res.data.user))
       navigate('/dashboard')
@@ -187,16 +189,16 @@ export default function Register() {
               )}
 
               <div className="button-group">
-                <button 
-                  type="button" 
-                  onClick={() => setStep(1)} 
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
                   className="btn-back"
                 >
                   ← Back
                 </button>
-                <button 
-                  type="submit" 
-                  disabled={loading} 
+                <button
+                  type="submit"
+                  disabled={loading}
                   className="btn-register"
                 >
                   {loading ? (
@@ -225,17 +227,27 @@ export default function Register() {
           </Link>
         </div>
 
+        {/* Right-side India map panel, same as Login */}
         <div className="auth-illustration">
-          <div className="illustration-content">
-            <div className="rating-animation">
-              <div className="star star-1">⭐</div>
-              <div className="star star-2">⭐</div>
-              <div className="star star-3">⭐</div>
-              <div className="star star-4">⭐</div>
-              <div className="star star-5">⭐</div>
+          <div className="india-map-panel">
+            <h2>Trusted ratings across India</h2>
+            <p className="india-map-text">
+              From metros to hidden towns, discover rated stores wherever you go.
+            </p>
+
+            <div className="india-map-wrapper">
+              <div className="india-map-shape">
+                <span className="map-pin pin-north">●</span>
+                <span className="map-pin pin-west">●</span>
+                <span className="map-pin pin-south">●</span>
+                <span className="map-pin pin-east">●</span>
+              </div>
             </div>
-            <div className="message-bubble">
-              <p>Join 10k+ happy raters!</p>
+
+            <div className="india-map-tags">
+              <span className="map-tag">Cafes</span>
+              <span className="map-tag">Groceries</span>
+              <span className="map-tag">Electronics</span>
             </div>
           </div>
         </div>

@@ -38,5 +38,23 @@ router.post(
   ratingController.submitRating
 );
 
+// Count of ratings for current user (for streak/progress)
+router.get('/me/count', authMiddleware, (req, res) => {
+  const userId = req.user.id;
+
+  const db = require('../config/database');
+
+  db.query(
+    'SELECT COUNT(*) AS total FROM ratings WHERE user_id = $1',
+    [userId],
+    (err, result) => {
+      if (err) return res.status(500).json({ message: 'Database error' });
+      const total = Number(result.rows[0].total || 0);
+      res.json({ total });
+    }
+  );
+});
+
+
 module.exports = router;
 

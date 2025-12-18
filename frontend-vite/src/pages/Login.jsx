@@ -16,16 +16,14 @@ export default function Login() {
     setLoading(true)
 
     try {
-      // authService.login returns res.data
-      const data = await authService.login(email, password)
+      const normalizedEmail = email.trim().toLowerCase()
+      const data = await authService.login(normalizedEmail, password)
 
-      // success: clear error and store auth data
       setError('')
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
       navigate('/dashboard')
     } catch (err) {
-      // handleError in authService throws Error with message
       setError(err.message || 'Invalid email or password')
     } finally {
       setLoading(false)
@@ -132,16 +130,27 @@ export default function Login() {
           </div>
         </div>
 
+        {/* Right-side India map panel */}
         <div className="auth-illustration">
-          <div className="illustration-content">
-            <div className="store-card-demo">
-              <div className="demo-star">⭐⭐⭐⭐⭐</div>
-              <div className="demo-text">Amazing Experience</div>
+          <div className="india-map-panel">
+            <h2>Trusted ratings across India</h2>
+            <p className="india-map-text">
+              From metros to hidden towns, discover rated stores wherever you go.
+            </p>
+
+            <div className="india-map-wrapper">
+              <div className="india-map-shape">
+                <span className="map-pin pin-north">●</span>
+                <span className="map-pin pin-west">●</span>
+                <span className="map-pin pin-south">●</span>
+                <span className="map-pin pin-east">●</span>
+              </div>
             </div>
-            <div className="user-avatars">
-              <div className="avatar avatar-1">👤</div>
-              <div className="avatar avatar-2">👥</div>
-              <div className="avatar avatar-3">👫</div>
+
+            <div className="india-map-tags">
+              <span className="map-tag">Cafes</span>
+              <span className="map-tag">Groceries</span>
+              <span className="map-tag">Electronics</span>
             </div>
           </div>
         </div>
@@ -149,4 +158,3 @@ export default function Login() {
     </div>
   )
 }
-

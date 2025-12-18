@@ -18,7 +18,7 @@ export default function StoreDetail() {
     try {
       const [storeRes, ratingsRes] = await Promise.all([
         storeService.getStoreById(id),
-        ratingService.getStoreRatings(id)
+        ratingService.getStoreRatings(id),
       ])
       setStore(storeRes.data)
       setRatings(ratingsRes.data || [])
@@ -64,7 +64,9 @@ export default function StoreDetail() {
     return (
       <div className="error-container">
         <h2>Store not found</h2>
-        <Link to="/" className="btn-back">← Back to Stores</Link>
+        <Link to="/" className="btn-back">
+          ← Back to Stores
+        </Link>
       </div>
     )
   }
@@ -73,19 +75,21 @@ export default function StoreDetail() {
     avg: store.rating || 0,
     total: ratings.length,
     distribution: {
-      5: ratings.filter(r => r.rating === 5).length,
-      4: ratings.filter(r => r.rating === 4).length,
-      3: ratings.filter(r => r.rating === 3).length,
-      2: ratings.filter(r => r.rating === 2).length,
-      1: ratings.filter(r => r.rating === 1).length,
-    }
+      5: ratings.filter((r) => r.rating === 5).length,
+      4: ratings.filter((r) => r.rating === 4).length,
+      3: ratings.filter((r) => r.rating === 3).length,
+      2: ratings.filter((r) => r.rating === 2).length,
+      1: ratings.filter((r) => r.rating === 1).length,
+    },
   }
 
   return (
     <div className="store-detail-wrapper">
       {/* Header */}
       <div className="detail-header">
-        <Link to="/" className="back-btn">← Back to Stores</Link>
+        <Link to="/" className="back-btn">
+          ← Back to Stores
+        </Link>
         <div className="store-hero">
           <div className="store-info">
             <h1>{store.name}</h1>
@@ -106,24 +110,53 @@ export default function StoreDetail() {
       </div>
 
       <div className="detail-container">
+        {/* Review vs no‑review comparison */}
+        <div className="review-comparison">
+          <div className="review-side review-no">
+            <div className="review-avatar">😕</div>
+            <div className="review-text-group">
+              <p className="review-title">No reviews</p>
+              <p className="review-sub">2+ hours wasted</p>
+            </div>
+          </div>
+
+          <div className="review-divider">
+            <span></span>
+          </div>
+
+          <div className="review-side review-yes">
+            <div className="review-avatar">😎</div>
+            <div className="review-text-group">
+              <p className="review-title">4.6★ near you</p>
+              <p className="review-sub">5 mins to decide</p>
+            </div>
+          </div>
+        </div>
+
         {/* Rating Distribution */}
         <section className="rating-distribution">
           <h2>Rating Distribution</h2>
           <div className="distribution-list">
-            {[5, 4, 3, 2, 1].map(stars => (
+            {[5, 4, 3, 2, 1].map((stars) => (
               <div key={stars} className="distribution-item">
                 <span className="stars">{stars}⭐</span>
                 <div className="bar">
-                  <div 
+                  <div
                     className="bar-fill"
                     style={{
-                      width: ratingStats.total > 0 
-                        ? (ratingStats.distribution[stars] / ratingStats.total * 100) + '%'
-                        : '0%'
+                      width:
+                        ratingStats.total > 0
+                          ? (ratingStats.distribution[stars] /
+                              ratingStats.total) *
+                              100 +
+                            '%'
+                          : '0%',
                     }}
                   ></div>
                 </div>
-                <span className="count">{ratingStats.distribution[stars]}</span>
+                <span className="count">
+                  {ratingStats.distribution[stars]}
+                </span>
               </div>
             ))}
           </div>
@@ -133,7 +166,7 @@ export default function StoreDetail() {
         {isAuthenticated && (
           <section className="rating-form-section">
             <h2>Share Your Experience</h2>
-            <RatingForm 
+            <RatingForm
               storeId={id}
               onSubmit={handleSubmitRating}
               isLoading={submitting}
@@ -144,7 +177,9 @@ export default function StoreDetail() {
         {!isAuthenticated && (
           <div className="login-prompt">
             <p>Sign in to share your rating and review</p>
-            <Link to="/login" className="btn-login-prompt">Sign In to Rate</Link>
+            <Link to="/login" className="btn-login-prompt">
+              Sign In to Rate
+            </Link>
           </div>
         )}
 
@@ -157,7 +192,7 @@ export default function StoreDetail() {
             </div>
           ) : (
             <div className="reviews-list">
-              {ratings.map(rating => (
+              {ratings.map((rating) => (
                 <div key={rating.id} className="review-card">
                   <div className="review-header">
                     <div className="reviewer-info">

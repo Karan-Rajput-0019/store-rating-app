@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import authService from '../services/authService'
 import '../styles/Auth.css'
 
+
 export default function Register() {
   const [formData, setFormData] = useState({
     name: '',
@@ -16,6 +17,7 @@ export default function Register() {
   const [step, setStep] = useState(1)
   const navigate = useNavigate()
 
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({
@@ -24,6 +26,7 @@ export default function Register() {
     }))
   }
 
+
   const handleNext = (e) => {
     e.preventDefault()
     if (step === 1 && formData.name && formData.email) {
@@ -31,24 +34,30 @@ export default function Register() {
     }
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match')
       return
     }
 
+
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters')
       return
     }
 
+
     setLoading(true)
+
 
     try {
       const normalizedEmail = formData.email.trim().toLowerCase()
+
 
       await authService.register({
         name: formData.name,
@@ -56,6 +65,7 @@ export default function Register() {
         password: formData.password,
         address: formData.address,
       })
+
 
       const res = await authService.login(normalizedEmail, formData.password)
       localStorage.setItem('token', res.data.token)
@@ -68,6 +78,7 @@ export default function Register() {
     }
   }
 
+
   return (
     <div className="auth-wrapper">
       <div className="auth-background">
@@ -75,6 +86,7 @@ export default function Register() {
         <div className="floating-shape shape-2"></div>
         <div className="floating-shape shape-3"></div>
       </div>
+
 
       <div className="auth-container">
         {/* Left: register card */}
@@ -87,6 +99,7 @@ export default function Register() {
             <p className="tagline">Start rating and sharing today</p>
           </div>
 
+
           <div className="step-indicator">
             <div className={`step ${step >= 1 ? 'active' : ''}`}>
               <span>1</span>
@@ -97,6 +110,7 @@ export default function Register() {
               <label>Security</label>
             </div>
           </div>
+
 
           {step === 1 ? (
             <form onSubmit={handleNext} className="auth-form">
@@ -115,6 +129,7 @@ export default function Register() {
                 </div>
               </div>
 
+
               <div className="form-group">
                 <div className="input-wrapper">
                   <input
@@ -130,6 +145,7 @@ export default function Register() {
                 </div>
               </div>
 
+
               <div className="form-group">
                 <div className="input-wrapper">
                   <input
@@ -143,6 +159,7 @@ export default function Register() {
                   <span className="input-icon">📍</span>
                 </div>
               </div>
+
 
               <button type="submit" className="btn-next">
                 <span>Next</span>
@@ -167,6 +184,7 @@ export default function Register() {
                 <small className="password-hint">Min 6 characters</small>
               </div>
 
+
               <div className="form-group">
                 <div className="input-wrapper">
                   <input
@@ -182,12 +200,14 @@ export default function Register() {
                 </div>
               </div>
 
+
               {error && (
                 <div className="error-alert">
                   <span className="error-icon">⚠️</span>
                   <p>{error}</p>
                 </div>
               )}
+
 
               <div className="button-group">
                 <button
@@ -218,9 +238,11 @@ export default function Register() {
             </form>
           )}
 
+
           <div className="auth-divider">
             <span>Have an account?</span>
           </div>
+
 
           <Link to="/login" className="btn-secondary">
             <span>Sign In</span>
@@ -228,22 +250,25 @@ export default function Register() {
           </Link>
         </div>
 
-        {/* Middle: India map panel */}
+
+        {/* Middle: Generic coverage panel */}
         <div className="auth-illustration">
           <div className="india-map-panel">
-            <h2>Trusted ratings across India</h2>
+            <h2>Trusted ratings near you</h2>
             <p className="india-map-text">
-              From metros to hidden towns, discover rated stores wherever you go.
+              From your city to hidden gems, discover rated stores wherever you go.
             </p>
+
 
             <div className="india-map-wrapper">
               <div className="india-map-shape">
-                <span className="map-pin pin-north">●</span>
-                <span className="map-pin pin-west">●</span>
-                <span className="map-pin pin-south">●</span>
-                <span className="map-pin pin-east">●</span>
+                <div className="discovery-dot dot-1">●</div>
+                <div className="discovery-dot dot-2">●</div>
+                <div className="discovery-dot dot-3">●</div>
+                <div className="discovery-dot dot-4">●</div>
               </div>
             </div>
+
 
             <div className="india-map-tags">
               <span className="map-tag">Cafes</span>
@@ -252,6 +277,7 @@ export default function Register() {
             </div>
           </div>
         </div>
+
 
         {/* Right: story panel */}
         <div className="story-panel">
@@ -263,10 +289,12 @@ export default function Register() {
             </div>
           </div>
 
+
           <div className="story-section story-middle">
             <div className="story-arrow">➜</div>
             <p className="story-or">Or</p>
           </div>
+
 
           <div className="story-section story-bottom">
             <div className="story-emoji">😎</div>
@@ -280,4 +308,8 @@ export default function Register() {
     </div>
   )
 }
+
+
+
+
 

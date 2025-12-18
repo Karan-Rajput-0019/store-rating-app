@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import authService from '../services/authService'
 import '../styles/Auth.css'
 
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -10,14 +11,17 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setLoading(true)
 
+
     try {
       const normalizedEmail = email.trim().toLowerCase()
       const data = await authService.login(normalizedEmail, password)
+
 
       setError('')
       localStorage.setItem('token', data.token)
@@ -30,6 +34,7 @@ export default function Login() {
     }
   }
 
+
   return (
     <div className="auth-wrapper">
       <div className="auth-background">
@@ -37,6 +42,7 @@ export default function Login() {
         <div className="floating-shape shape-2"></div>
         <div className="floating-shape shape-3"></div>
       </div>
+
 
       <div className="auth-container">
         {/* Left: login card */}
@@ -48,6 +54,7 @@ export default function Login() {
             <h1>RateHub</h1>
             <p className="tagline">Discover Amazing Stores</p>
           </div>
+
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
@@ -65,6 +72,7 @@ export default function Login() {
               </div>
             </div>
 
+
             <div className="form-group">
               <div className="input-wrapper">
                 <input
@@ -80,12 +88,14 @@ export default function Login() {
               </div>
             </div>
 
+
             {error && (
               <div className="error-alert">
                 <span className="error-icon">⚠️</span>
                 <p>{error}</p>
               </div>
             )}
+
 
             <button
               type="submit"
@@ -106,14 +116,17 @@ export default function Login() {
             </button>
           </form>
 
+
           <div className="auth-divider">
             <span>New to RateHub?</span>
           </div>
+
 
           <Link to="/register" className="btn-secondary">
             <span>Create Account</span>
             <span className="plus-icon">+</span>
           </Link>
+
 
           <div className="auth-features">
             <div className="feature">
@@ -131,22 +144,25 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Middle: India map panel */}
+
+        {/* Middle: Generic coverage panel */}
         <div className="auth-illustration">
           <div className="india-map-panel">
-            <h2>Trusted ratings across India</h2>
+            <h2>Trusted ratings near you</h2>
             <p className="india-map-text">
-              From metros to hidden towns, discover rated stores wherever you go.
+              From your city to hidden gems, discover rated stores wherever you go.
             </p>
+
 
             <div className="india-map-wrapper">
               <div className="india-map-shape">
-                <span className="map-pin pin-north">●</span>
-                <span className="map-pin pin-west">●</span>
-                <span className="map-pin pin-south">●</span>
-                <span className="map-pin pin-east">●</span>
+                <div className="discovery-dot dot-1">●</div>
+                <div className="discovery-dot dot-2">●</div>
+                <div className="discovery-dot dot-3">●</div>
+                <div className="discovery-dot dot-4">●</div>
               </div>
             </div>
+
 
             <div className="india-map-tags">
               <span className="map-tag">Cafes</span>
@@ -155,6 +171,7 @@ export default function Login() {
             </div>
           </div>
         </div>
+
 
         {/* Right: story panel */}
         <div className="story-panel">
@@ -166,10 +183,12 @@ export default function Login() {
             </div>
           </div>
 
+
           <div className="story-section story-middle">
             <div className="story-arrow">➜</div>
             <p className="story-or">Or</p>
           </div>
+
 
           <div className="story-section story-bottom">
             <div className="story-emoji">😎</div>
@@ -183,4 +202,8 @@ export default function Login() {
     </div>
   )
 }
+
+
+
+
 

@@ -2659,4 +2659,172 @@ body {
   0%, 100% { transform: translateY(0px); opacity: 0.8; }
   50% { transform: translateY(-8px); opacity: 1; }
 }
+/* ===== STORY PANEL ANIMATIONS & ENHANCEMENTS ===== */
 
+/* Fade-in animation for story sections */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.story-top {
+  animation-delay: 0.1s;
+}
+
+.story-bottom {
+  animation-delay: 0.3s;
+}
+
+/* Enhanced divider container */
+.story-divider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.story-arrow {
+  font-size: 18px;
+  opacity: 0.6;
+  animation: slideArrow 1.5s ease-in-out infinite;
+}
+
+@keyframes slideArrow {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(8px);
+    opacity: 0.8;
+  }
+}
+
+/* Styled "Or" badge */
+.or-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.or-badge:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Recommended badge */
+.story-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, rgba(26, 159, 177, 0.9), rgba(45, 166, 178, 0.8));
+  border: 1px solid rgba(26, 159, 177, 0.5);
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(26, 159, 177, 0.2);
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(26, 159, 177, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(26, 159, 177, 0.35);
+  }
+}
+
+/* Enhanced recommended section styling */
+.story-section.recommended {
+  position: relative;
+  background: linear-gradient(135deg, rgba(26, 159, 177, 0.08), rgba(45, 166, 178, 0.05));
+  border: 1px solid rgba(26, 159, 177, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+}
+
+.story-section.recommended:hover {
+  background: linear-gradient(135deg, rgba(26, 159, 177, 0.12), rgba(45, 166, 178, 0.09));
+  border-color: rgba(26, 159, 177, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26, 159, 177, 0.1);
+}
+
+/* Discovery dot animations */
+.discovery-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  color: #c4a574;
+  font-size: 12px;
+  opacity: 0.8;
+  animation: float 3s ease-in-out infinite;
+}
+
+.discovery-dot.dot-1 { 
+  top: 20%; 
+  left: 30%; 
+  animation-delay: 0s; 
+}
+
+.discovery-dot.dot-2 { 
+  top: 50%; 
+  left: 15%; 
+  animation-delay: 0.6s; 
+}
+
+.discovery-dot.dot-3 { 
+  top: 60%; 
+  left: 70%; 
+  animation-delay: 1.2s; 
+}
+
+.discovery-dot.dot-4 { 
+  top: 35%; 
+  left: 75%; 
+  animation-delay: 1.8s; 
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: translateY(-8px); 
+    opacity: 1; 
+  }
+}
+.rating-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-12);
+}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import '../styles/StoreCard.css'
+import '../styles/Store-Card.css'
 
 export default function StoreCard({ store }) {
   return (

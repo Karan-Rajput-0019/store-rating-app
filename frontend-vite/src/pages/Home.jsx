@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import StoreCard from '../components/StoreCard'
 import storeService from '../services/storeService'
-import '../styles/Home.css'
+import '../styles/home.css'
 
 export default function Home() {
   const [stores, setStores] = useState([])

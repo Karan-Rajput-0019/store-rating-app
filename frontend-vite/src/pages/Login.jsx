@@ -173,28 +173,130 @@ export default function Login() {
         </div>
 
 
-        {/* Right: story panel */}
+        {/* Right: Enhanced story panel */}
         <div className="story-panel">
-          <div className="story-section story-top">
+          {/* Top Section: Without Reviews */}
+          <div className="story-section story-top fade-in-up">
             <div className="story-emoji">😕</div>
-            <div>
+            <div className="story-content">
               <p className="story-title">Without reviews</p>
               <p className="story-text">Walk, ask, guess. 2+ hours gone.</p>
+              
+              {/* Icons + Short Labels */}
+              <div className="story-icons">
+                <div className="story-icon-item">
+                  <span className="icon-emoji">😕</span>
+                  <span className="icon-label">Uncertain</span>
+                </div>
+                <div className="story-icon-item">
+                  <span className="icon-emoji">⏳</span>
+                  <span className="icon-label">Time-consuming</span>
+                </div>
+                <div className="story-icon-item">
+                  <span className="icon-emoji">🎲</span>
+                  <span className="icon-label">Risky choice</span>
+                </div>
+              </div>
+
+              {/* Benefit Bullets */}
+              <div className="story-bullets">
+                <div className="bullet">• Walk around confused</div>
+                <div className="bullet">• Ask strangers</div>
+                <div className="bullet">• Waste time</div>
+              </div>
+
+              {/* Statistics */}
+              <div className="story-stats">
+                <div className="stat-item">
+                  <div className="stat-number">40%</div>
+                  <div className="stat-label">Success rate</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-number">2h</div>
+                  <div className="stat-label">Decision time</div>
+                </div>
+              </div>
+
+              {/* Comparison Row */}
+              <div className="story-comparison-row">
+                <div className="comparison-col">
+                  <div className="comparison-header">Time</div>
+                  <div className="comparison-value">2+ hours</div>
+                </div>
+                <div className="comparison-col">
+                  <div className="comparison-header">Confidence</div>
+                  <div className="comparison-value">Low</div>
+                </div>
+              </div>
             </div>
           </div>
 
 
+          {/* Middle Section: Or Divider */}
           <div className="story-section story-middle">
-            <div className="story-arrow">➜</div>
-            <p className="story-or">Or</p>
+            <div className="story-divider-container">
+              <div className="story-arrow">➜</div>
+              <p className="story-or">
+                <span className="or-badge">Or</span>
+              </p>
+            </div>
           </div>
 
 
-          <div className="story-section story-bottom">
+          {/* Bottom Section: With RateHub */}
+          <div className="story-section story-bottom fade-in-up recommended">
+            <div className="story-badge">⭐ Recommended</div>
             <div className="story-emoji">😎</div>
-            <div>
+            <div className="story-content">
               <p className="story-title">With RateHub</p>
               <p className="story-text">4.6★ stores near you. Decide in 5 mins.</p>
+              
+              {/* Icons + Short Labels */}
+              <div className="story-icons">
+                <div className="story-icon-item">
+                  <span className="icon-emoji">✅</span>
+                  <span className="icon-label">Confident</span>
+                </div>
+                <div className="story-icon-item">
+                  <span className="icon-emoji">⚡</span>
+                  <span className="icon-label">Quick</span>
+                </div>
+                <div className="story-icon-item">
+                  <span className="icon-emoji">🎯</span>
+                  <span className="icon-label">Informed choice</span>
+                </div>
+              </div>
+
+              {/* Benefit Bullets */}
+              <div className="story-bullets">
+                <div className="bullet">• Find rated stores</div>
+                <div className="bullet">• Read verified reviews</div>
+                <div className="bullet">• Make smart choices</div>
+              </div>
+
+              {/* Statistics */}
+              <div className="story-stats">
+                <div className="stat-item highlight">
+                  <div className="stat-number">94%</div>
+                  <div className="stat-label">Success rate</div>
+                </div>
+                <div className="stat-item highlight">
+                  <div className="stat-number">5min</div>
+                  <div className="stat-label">Decision time</div>
+                </div>
+              </div>
+
+              {/* Comparison Row */}
+              <div className="story-comparison-row">
+                <div className="comparison-col">
+                  <div className="comparison-header">Time</div>
+                  <div className="comparison-value">5 minutes</div>
+                </div>
+                <div className="comparison-col">
+                  <div className="comparison-header">Confidence</div>
+                  <div className="comparison-value">4.6★ verified</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

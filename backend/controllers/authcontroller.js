@@ -9,10 +9,9 @@ const register = async (req, res) => {
     const { name, email, password, address } = req.body;
 
     // Check if user exists
-    db.query('SELECT email FROM users WHERE email = ?', [email], async (err, results) => {
+    db.query('SELECT email FROM users WHERE email = $1', [email], async (err, result) => {
       if (err) return res.status(500).json({ message: 'Database error' });
-      
-      if (results.length > 0) {
+      if (result.rows.length > 0) {
         return res.status(400).json({ message: 'Email already in use' });
       }
 
@@ -21,14 +20,13 @@ const register = async (req, res) => {
 
       // Insert user
       db.query(
-        'INSERT INTO users (name, email, password, address, role) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO users (name, email, password, address, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
         [name, email, hashedPassword, address, 'normal_user'],
-        (err, results) => {
+        (err, result) => {
           if (err) return res.status(500).json({ message: 'Database error' });
-          
-          res.status(201).json({ 
+          res.status(201).json({
             message: 'User registered successfully',
-            userId: results.insertId 
+            userId: result.rows[0].id
           });
         }
       );
@@ -43,14 +41,14 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    db.query('SELECT * FROM users WHERE email = $1', [email], async (err, result) => {
       if (err) return res.status(500).json({ message: 'Database error' });
-      
-      if (results.length === 0 || !await bcrypt.compare(password, results[0].password)) {
+
+      if (result.rows.length === 0 || !await bcrypt.compare(password, result.rows[0].password)) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
-      const user = results[0];
+      const user = result.rows[0];
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
         process.env.JWT_SECRET,
@@ -80,21 +78,21 @@ const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
     const userId = req.user.id;
 
-    db.query('SELECT password FROM users WHERE id = ?', [userId], async (err, results) => {
+    db.query('SELECT password FROM users WHERE id = $1', [userId], async (err, result) => {
       if (err) return res.status(500).json({ message: 'Database error' });
-      
-      if (!results.length) {
+
+      if (!result.rows.length) {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      const passwordMatch = await bcrypt.compare(currentPassword, results[0].password);
+      const passwordMatch = await bcrypt.compare(currentPassword, result.rows[0].password);
       if (!passwordMatch) {
         return res.status(401).json({ message: 'Current password is incorrect' });
       }
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      db.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, userId], (err) => {
+      db.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, userId], (err) => {
         if (err) return res.status(500).json({ message: 'Database error' });
         res.json({ message: 'Password changed successfully' });
       });

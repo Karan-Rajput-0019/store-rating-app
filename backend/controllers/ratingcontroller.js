@@ -1,17 +1,15 @@
-// backend/controllers/ratingController.js
 const db = require('../config/database');
 
 // Get ratings for a store
 const getRatingsByStore = (req, res) => {
   try {
     const { storeId } = req.params;
-
     db.query(
-      'SELECT r.id, r.user_id, u.name, r.rating, r.created_at FROM ratings r JOIN users u ON r.user_id = u.id WHERE r.store_id = ? ORDER BY r.created_at DESC',
+      'SELECT r.id, r.user_id, u.name, r.rating, r.created_at FROM ratings r JOIN users u ON r.user_id = u.id WHERE r.store_id = $1 ORDER BY r.created_at DESC',
       [storeId],
-      (err, results) => {
+      (err, result) => {
         if (err) return res.status(500).json({ message: 'Database error' });
-        res.json(results);
+        res.json(result.rows);
       }
     );
   } catch (error) {
@@ -23,13 +21,12 @@ const getRatingsByStore = (req, res) => {
 const getRatingsByUser = (req, res) => {
   try {
     const { userId } = req.params;
-
     db.query(
-      'SELECT r.id, r.store_id, s.name as storeName, r.rating, r.created_at FROM ratings r JOIN stores s ON r.store_id = s.id WHERE r.user_id = ? ORDER BY r.created_at DESC',
+      'SELECT r.id, r.store_id, s.name as storeName, r.rating, r.created_at FROM ratings r JOIN stores s ON r.store_id = s.id WHERE r.user_id = $1 ORDER BY r.created_at DESC',
       [userId],
-      (err, results) => {
+      (err, result) => {
         if (err) return res.status(500).json({ message: 'Database error' });
-        res.json(results);
+        res.json(result.rows);
       }
     );
   } catch (error) {
@@ -45,15 +42,15 @@ const submitRating = (req, res) => {
 
     // Check if rating already exists
     db.query(
-      'SELECT id FROM ratings WHERE user_id = ? AND store_id = ?',
+      'SELECT id FROM ratings WHERE user_id = $1 AND store_id = $2',
       [user_id, store_id],
-      (err, results) => {
+      (err, result) => {
         if (err) return res.status(500).json({ message: 'Database error' });
 
-        if (results.length > 0) {
+        if (result.rows.length > 0) {
           // Update existing rating
           db.query(
-            'UPDATE ratings SET rating = ? WHERE user_id = ? AND store_id = ?',
+            'UPDATE ratings SET rating = $1 WHERE user_id = $2 AND store_id = $3',
             [rating, user_id, store_id],
             (err) => {
               if (err) return res.status(500).json({ message: 'Database error' });
@@ -63,13 +60,13 @@ const submitRating = (req, res) => {
         } else {
           // Insert new rating
           db.query(
-            'INSERT INTO ratings (user_id, store_id, rating) VALUES (?, ?, ?)',
+            'INSERT INTO ratings (user_id, store_id, rating) VALUES ($1, $2, $3) RETURNING id',
             [user_id, store_id, rating],
-            (err, results) => {
+            (err, result) => {
               if (err) return res.status(500).json({ message: 'Database error' });
-              res.status(201).json({ 
+              res.status(201).json({
                 message: 'Rating submitted successfully',
-                ratingId: results.insertId 
+                ratingId: result.rows[0].id
               });
             }
           );
@@ -88,11 +85,11 @@ const getUserStoreRating = (req, res) => {
     const userId = req.user.id;
 
     db.query(
-      'SELECT rating FROM ratings WHERE user_id = ? AND store_id = ?',
+      'SELECT rating FROM ratings WHERE user_id = $1 AND store_id = $2',
       [userId, storeId],
-      (err, results) => {
+      (err, result) => {
         if (err) return res.status(500).json({ message: 'Database error' });
-        res.json({ rating: results.length > 0 ? results[0].rating : null });
+        res.json({ rating: result.rows.length > 0 ? result.rows[0].rating : null });
       }
     );
   } catch (error) {

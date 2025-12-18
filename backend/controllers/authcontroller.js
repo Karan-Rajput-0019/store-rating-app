@@ -39,16 +39,26 @@ const register = async (req, res) => {
 // Login
 const login = async (req, res) => {
   try {
+    console.log('LOGIN BODY:', req.body); // debug: what frontend sends
     const { email, password } = req.body;
 
     db.query('SELECT * FROM users WHERE email = $1', [email], async (err, result) => {
       if (err) return res.status(500).json({ message: 'Database error' });
 
-      if (result.rows.length === 0 || !await bcrypt.compare(password, result.rows[0].password)) {
+      console.log('LOGIN DB ROWS:', result.rows); // debug: what DB returns
+
+      if (result.rows.length === 0) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
       const user = result.rows[0];
+      const match = await bcrypt.compare(password, user.password);
+      console.log('LOGIN PASSWORD MATCH:', match); // debug: true/false
+
+      if (!match) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
         process.env.JWT_SECRET,
@@ -92,10 +102,14 @@ const changePassword = async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      db.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, userId], (err) => {
-        if (err) return res.status(500).json({ message: 'Database error' });
-        res.json({ message: 'Password changed successfully' });
-      });
+      db.query(
+        'UPDATE users SET password = $1 WHERE id = $2',
+        [hashedPassword, userId],
+        (err) => {
+          if (err) return res.status(500).json({ message: 'Database error' });
+          res.json({ message: 'Password changed successfully' });
+        }
+      );
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

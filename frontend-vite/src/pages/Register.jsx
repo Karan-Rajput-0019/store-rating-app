@@ -89,191 +89,194 @@ export default function Register() {
 
 
       <div className="auth-container">
-        {/* Left: register card */}
-        <div className="auth-card register-card">
-          <div className="auth-header">
-            <div className="logo-circle">
-              <span className="logo-icon">🏪</span>
+        {/* Left Column: Register Card + Middle Panel */}
+        <div className="auth-left-column">
+          {/* Top: register card */}
+          <div className="auth-card register-card">
+            <div className="auth-header">
+              <div className="logo-circle">
+                <span className="logo-icon">🏪</span>
+              </div>
+              <h1>Join RateHub</h1>
+              <p className="tagline">Start rating and sharing today</p>
             </div>
-            <h1>Join RateHub</h1>
-            <p className="tagline">Start rating and sharing today</p>
-          </div>
 
 
-          <div className="step-indicator">
-            <div className={`step ${step >= 1 ? 'active' : ''}`}>
-              <span>1</span>
-              <label>Basic Info</label>
+            <div className="step-indicator">
+              <div className={`step ${step >= 1 ? 'active' : ''}`}>
+                <span>1</span>
+                <label>Basic Info</label>
+              </div>
+              <div className={`step ${step >= 2 ? 'active' : ''}`}>
+                <span>2</span>
+                <label>Security</label>
+              </div>
             </div>
-            <div className={`step ${step >= 2 ? 'active' : ''}`}>
-              <span>2</span>
-              <label>Security</label>
-            </div>
-          </div>
 
 
-          {step === 1 ? (
-            <form onSubmit={handleNext} className="auth-form">
-              <div className="form-group">
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Full name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="auth-input"
-                  />
-                  <span className="input-icon">👤</span>
+            {step === 1 ? (
+              <form onSubmit={handleNext} className="auth-form">
+                <div className="form-group">
+                  <div className="input-wrapper">
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Full name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="auth-input"
+                    />
+                    <span className="input-icon">👤</span>
+                  </div>
                 </div>
-              </div>
 
 
-              <div className="form-group">
-                <div className="input-wrapper">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email address"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="auth-input"
-                  />
-                  <span className="input-icon">✉️</span>
+                <div className="form-group">
+                  <div className="input-wrapper">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email address"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="auth-input"
+                    />
+                    <span className="input-icon">✉️</span>
+                  </div>
                 </div>
-              </div>
 
 
-              <div className="form-group">
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    name="address"
-                    placeholder="Your address (optional)"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="auth-input"
-                  />
-                  <span className="input-icon">📍</span>
+                <div className="form-group">
+                  <div className="input-wrapper">
+                    <input
+                      type="text"
+                      name="address"
+                      placeholder="Your address (optional)"
+                      value={formData.address}
+                      onChange={handleChange}
+                      className="auth-input"
+                    />
+                    <span className="input-icon">📍</span>
+                  </div>
                 </div>
-              </div>
 
 
-              <button type="submit" className="btn-next">
-                <span>Next</span>
-                <span className="btn-arrow">→</span>
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="form-group">
-                <div className="input-wrapper">
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Create password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="auth-input"
-                  />
-                  <span className="input-icon">🔐</span>
-                </div>
-                <small className="password-hint">Min 6 characters</small>
-              </div>
-
-
-              <div className="form-group">
-                <div className="input-wrapper">
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    className="auth-input"
-                  />
-                  <span className="input-icon">✓</span>
-                </div>
-              </div>
-
-
-              {error && (
-                <div className="error-alert">
-                  <span className="error-icon">⚠️</span>
-                  <p>{error}</p>
-                </div>
-              )}
-
-
-              <div className="button-group">
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="btn-back"
-                >
-                  ← Back
+                <button type="submit" className="btn-next">
+                  <span>Next</span>
+                  <span className="btn-arrow">→</span>
                 </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-register"
-                >
-                  {loading ? (
-                    <>
-                      <span className="spinner"></span>
-                      Creating...
-                    </>
-                  ) : (
-                    <>
-                      <span>Create Account</span>
-                      <span>🎉</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          )}
+              </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="auth-form">
+                <div className="form-group">
+                  <div className="input-wrapper">
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Create password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                      className="auth-input"
+                    />
+                    <span className="input-icon">🔐</span>
+                  </div>
+                  <small className="password-hint">Min 6 characters</small>
+                </div>
 
 
-          <div className="auth-divider">
-            <span>Have an account?</span>
-          </div>
+                <div className="form-group">
+                  <div className="input-wrapper">
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                      className="auth-input"
+                    />
+                    <span className="input-icon">✓</span>
+                  </div>
+                </div>
 
 
-          <Link to="/login" className="btn-secondary">
-            <span>Sign In</span>
-            <span className="arrow-icon">→</span>
-          </Link>
-        </div>
+                {error && (
+                  <div className="error-alert">
+                    <span className="error-icon">⚠️</span>
+                    <p>{error}</p>
+                  </div>
+                )}
 
 
-        {/* Middle: Generic coverage panel */}
-        <div className="auth-illustration">
-          <div className="india-map-panel">
-            <h2>Trusted ratings near you</h2>
-            <p className="india-map-text">
-              From your city to hidden gems, discover rated stores wherever you go.
-            </p>
+                <div className="button-group">
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="btn-back"
+                  >
+                    ← Back
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn-register"
+                  >
+                    {loading ? (
+                      <>
+                        <span className="spinner"></span>
+                        Creating...
+                      </>
+                    ) : (
+                      <>
+                        <span>Create Account</span>
+                        <span>🎉</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
 
 
-            <div className="india-map-wrapper">
-              <div className="india-map-shape">
-                <div className="discovery-dot dot-1">●</div>
-                <div className="discovery-dot dot-2">●</div>
-                <div className="discovery-dot dot-3">●</div>
-                <div className="discovery-dot dot-4">●</div>
-              </div>
+            <div className="auth-divider">
+              <span>Have an account?</span>
             </div>
 
 
-            <div className="india-map-tags">
-              <span className="map-tag">Cafes</span>
-              <span className="map-tag">Groceries</span>
-              <span className="map-tag">Electronics</span>
+            <Link to="/login" className="btn-secondary">
+              <span>Sign In</span>
+              <span className="arrow-icon">→</span>
+            </Link>
+          </div>
+
+
+          {/* Bottom: Generic coverage panel */}
+          <div className="auth-illustration">
+            <div className="india-map-panel">
+              <h2>Trusted ratings near you</h2>
+              <p className="india-map-text">
+                From your city to hidden gems, discover rated stores wherever you go.
+              </p>
+
+
+              <div className="india-map-wrapper">
+                <div className="india-map-shape">
+                  <div className="discovery-dot dot-1">●</div>
+                  <div className="discovery-dot dot-2">●</div>
+                  <div className="discovery-dot dot-3">●</div>
+                  <div className="discovery-dot dot-4">●</div>
+                </div>
+              </div>
+
+
+              <div className="india-map-tags">
+                <span className="map-tag">Cafes</span>
+                <span className="map-tag">Groceries</span>
+                <span className="map-tag">Electronics</span>
+              </div>
             </div>
           </div>
         </div>
@@ -410,6 +413,7 @@ export default function Register() {
     </div>
   )
 }
+
 
 
 

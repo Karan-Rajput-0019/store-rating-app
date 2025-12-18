@@ -45,129 +45,132 @@ export default function Login() {
 
 
       <div className="auth-container">
-        {/* Left: login card */}
-        <div className="auth-card login-card">
-          <div className="auth-header">
-            <div className="logo-circle">
-              <span className="logo-icon">🏪</span>
-            </div>
-            <h1>RateHub</h1>
-            <p className="tagline">Discover Amazing Stores</p>
-          </div>
-
-
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="form-group">
-              <div className="input-wrapper">
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                  className="auth-input"
-                />
-                <span className="input-icon">✉️</span>
+        {/* Left Column: Login Card + Middle Panel */}
+        <div className="auth-left-column">
+          {/* Top: login card */}
+          <div className="auth-card login-card">
+            <div className="auth-header">
+              <div className="logo-circle">
+                <span className="logo-icon">🏪</span>
               </div>
+              <h1>RateHub</h1>
+              <p className="tagline">Discover Amazing Stores</p>
             </div>
 
 
-            <div className="form-group">
-              <div className="input-wrapper">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                  className="auth-input"
-                />
-                <span className="input-icon">🔐</span>
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="form-group">
+                <div className="input-wrapper">
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={loading}
+                    className="auth-input"
+                  />
+                  <span className="input-icon">✉️</span>
+                </div>
               </div>
-            </div>
 
 
-            {error && (
-              <div className="error-alert">
-                <span className="error-icon">⚠️</span>
-                <p>{error}</p>
+              <div className="form-group">
+                <div className="input-wrapper">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={loading}
+                    className="auth-input"
+                  />
+                  <span className="input-icon">🔐</span>
+                </div>
               </div>
-            )}
 
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-login"
-            >
-              {loading ? (
-                <>
-                  <span className="spinner"></span>
-                  Logging in...
-                </>
-              ) : (
-                <>
-                  Sign In
-                  <span className="btn-arrow">→</span>
-                </>
+              {error && (
+                <div className="error-alert">
+                  <span className="error-icon">⚠️</span>
+                  <p>{error}</p>
+                </div>
               )}
-            </button>
-          </form>
 
 
-          <div className="auth-divider">
-            <span>New to RateHub?</span>
-          </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-login"
+              >
+                {loading ? (
+                  <>
+                    <span className="spinner"></span>
+                    Logging in...
+                  </>
+                ) : (
+                  <>
+                    Sign In
+                    <span className="btn-arrow">→</span>
+                  </>
+                )}
+              </button>
+            </form>
 
 
-          <Link to="/register" className="btn-secondary">
-            <span>Create Account</span>
-            <span className="plus-icon">+</span>
-          </Link>
-
-
-          <div className="auth-features">
-            <div className="feature">
-              <span>⭐</span>
-              <p>Rate stores</p>
+            <div className="auth-divider">
+              <span>New to RateHub?</span>
             </div>
-            <div className="feature">
-              <span>💬</span>
-              <p>Leave reviews</p>
-            </div>
-            <div className="feature">
-              <span>🔍</span>
-              <p>Discover gems</p>
-            </div>
-          </div>
-        </div>
 
 
-        {/* Middle: Generic coverage panel */}
-        <div className="auth-illustration">
-          <div className="india-map-panel">
-            <h2>Trusted ratings near you</h2>
-            <p className="india-map-text">
-              From your city to hidden gems, discover rated stores wherever you go.
-            </p>
+            <Link to="/register" className="btn-secondary">
+              <span>Create Account</span>
+              <span className="plus-icon">+</span>
+            </Link>
 
 
-            <div className="india-map-wrapper">
-              <div className="india-map-shape">
-                <div className="discovery-dot dot-1">●</div>
-                <div className="discovery-dot dot-2">●</div>
-                <div className="discovery-dot dot-3">●</div>
-                <div className="discovery-dot dot-4">●</div>
+            <div className="auth-features">
+              <div className="feature">
+                <span>⭐</span>
+                <p>Rate stores</p>
+              </div>
+              <div className="feature">
+                <span>💬</span>
+                <p>Leave reviews</p>
+              </div>
+              <div className="feature">
+                <span>🔍</span>
+                <p>Discover gems</p>
               </div>
             </div>
+          </div>
 
 
-            <div className="india-map-tags">
-              <span className="map-tag">Cafes</span>
-              <span className="map-tag">Groceries</span>
-              <span className="map-tag">Electronics</span>
+          {/* Bottom: Generic coverage panel */}
+          <div className="auth-illustration">
+            <div className="india-map-panel">
+              <h2>Trusted ratings near you</h2>
+              <p className="india-map-text">
+                From your city to hidden gems, discover rated stores wherever you go.
+              </p>
+
+
+              <div className="india-map-wrapper">
+                <div className="india-map-shape">
+                  <div className="discovery-dot dot-1">●</div>
+                  <div className="discovery-dot dot-2">●</div>
+                  <div className="discovery-dot dot-3">●</div>
+                  <div className="discovery-dot dot-4">●</div>
+                </div>
+              </div>
+
+
+              <div className="india-map-tags">
+                <span className="map-tag">Cafes</span>
+                <span className="map-tag">Groceries</span>
+                <span className="map-tag">Electronics</span>
+              </div>
             </div>
           </div>
         </div>
@@ -304,6 +307,7 @@ export default function Login() {
     </div>
   )
 }
+
 
 
 

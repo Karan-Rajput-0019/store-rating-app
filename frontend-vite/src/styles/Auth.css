@@ -3189,3 +3189,389 @@ body {
     font-size: 12px;
   }
 }
+/* ===== NEW LAYOUT FOR LEFT COLUMN ===== */
+.auth-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-left-column .auth-card {
+  flex-shrink: 0;
+}
+
+.auth-left-column .auth-illustration {
+  flex-grow: 1;
+  min-height: 300px;
+}
+
+.auth-left-column .india-map-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/* ===== RESPONSIVE: MOBILE & TABLET ONLY ===== */
+
+/* Tablets and below (1024px and down) */
+@media (max-width: 1024px) {
+  .auth-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .auth-left-column {
+    width: 100%;
+    order: 1;
+  }
+
+  .story-panel {
+    width: 100%;
+    order: 2;
+  }
+
+  .auth-card {
+    min-height: auto;
+  }
+
+  .auth-illustration {
+    min-height: 250px;
+  }
+
+  .story-section {
+    padding: 16px;
+  }
+}
+
+/* Phones (768px and below) */
+@media (max-width: 768px) {
+  .auth-wrapper {
+    padding: 10px;
+  }
+
+  .auth-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+  }
+
+  .auth-left-column {
+    width: 100%;
+    gap: 15px;
+  }
+
+  .auth-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .auth-header h1 {
+    font-size: 24px;
+  }
+
+  .auth-header p.tagline {
+    font-size: 13px;
+  }
+
+  .auth-form {
+    gap: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .auth-input {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .btn-login,
+  .btn-secondary,
+  .btn-next,
+  .btn-register {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .auth-features {
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .feature {
+    gap: 6px;
+  }
+
+  .feature span {
+    font-size: 18px;
+  }
+
+  .feature p {
+    font-size: 11px;
+  }
+
+  /* Middle Panel */
+  .auth-illustration {
+    min-height: 280px;
+  }
+
+  .india-map-panel {
+    padding: 16px;
+  }
+
+  .india-map-panel h2 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .india-map-text {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .india-map-wrapper {
+    height: 150px;
+    margin-bottom: 12px;
+  }
+
+  .india-map-tags {
+    gap: 8px;
+  }
+
+  .map-tag {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  /* Story Panel */
+  .story-panel {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .story-section {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .story-emoji {
+    font-size: 32px;
+  }
+
+  .story-title {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .story-text {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .story-icons {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin: 8px 0;
+    padding: 8px 0;
+  }
+
+  .icon-emoji {
+    font-size: 18px;
+  }
+
+  .icon-label {
+    font-size: 10px;
+  }
+
+  .story-bullets {
+    gap: 4px;
+    padding: 8px;
+    margin: 8px 0;
+  }
+
+  .bullet {
+    font-size: 11px;
+  }
+
+  .story-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 8px 0;
+  }
+
+  .stat-item {
+    padding: 8px;
+  }
+
+  .stat-number {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .story-comparison-row {
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px 0;
+  }
+
+  .comparison-header {
+    font-size: 9px;
+  }
+
+  .comparison-value {
+    font-size: 12px;
+  }
+
+  .story-badge {
+    padding: 3px 10px;
+    font-size: 10px;
+    top: -8px;
+    right: 12px;
+  }
+
+  .or-badge {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+
+  .story-divider-container {
+    padding: 12px 0;
+    gap: 8px;
+  }
+
+  .story-arrow {
+    font-size: 16px;
+  }
+
+  .step-indicator {
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .step {
+    flex: 1;
+  }
+
+  .step span {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .step label {
+    font-size: 11px;
+  }
+
+  .password-hint {
+    font-size: 11px;
+  }
+
+  .error-alert {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .error-icon {
+    font-size: 16px;
+  }
+
+  .error-alert p {
+    font-size: 12px;
+  }
+
+  .button-group {
+    gap: 8px;
+  }
+
+  .auth-divider {
+    margin: 12px 0;
+  }
+
+  .auth-divider span {
+    font-size: 12px;
+  }
+}
+
+/* Small phones (480px and below) */
+@media (max-width: 480px) {
+  .auth-wrapper {
+    padding: 5px;
+  }
+
+  .auth-container {
+    gap: 10px;
+  }
+
+  .auth-left-column {
+    gap: 10px;
+  }
+
+  .auth-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .auth-header h1 {
+    font-size: 20px;
+  }
+
+  .auth-header .logo-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .auth-header .logo-icon {
+    font-size: 24px;
+  }
+
+  .india-map-panel {
+    padding: 12px;
+  }
+
+  .india-map-panel h2 {
+    font-size: 16px;
+  }
+
+  .india-map-wrapper {
+    height: 120px;
+    margin-bottom: 10px;
+  }
+
+  .story-panel {
+    gap: 10px;
+  }
+
+  .story-section {
+    padding: 10px;
+  }
+
+  .story-emoji {
+    font-size: 28px;
+  }
+
+  .story-title {
+    font-size: 14px;
+  }
+
+  .story-text {
+    font-size: 11px;
+  }
+
+  .story-icons {
+    gap: 4px;
+    margin: 6px 0;
+    padding: 6px 0;
+  }
+
+  .story-stats {
+    gap: 6px;
+    margin: 6px 0;
+  }
+
+  .stat-number {
+    font-size: 14px;
+  }
+}

@@ -77,6 +77,7 @@ export default function Register() {
       </div>
 
       <div className="auth-container">
+        {/* Left: register card */}
         <div className="auth-card register-card">
           <div className="auth-header">
             <div className="logo-circle">
@@ -227,7 +228,7 @@ export default function Register() {
           </Link>
         </div>
 
-        {/* Right-side India map panel, same as Login */}
+        {/* Middle: India map panel */}
         <div className="auth-illustration">
           <div className="india-map-panel">
             <h2>Trusted ratings across India</h2>
@@ -251,7 +252,32 @@ export default function Register() {
             </div>
           </div>
         </div>
+
+        {/* Right: story panel */}
+        <div className="story-panel">
+          <div className="story-section story-top">
+            <div className="story-emoji">😕</div>
+            <div>
+              <p className="story-title">Without reviews</p>
+              <p className="story-text">Walk, ask, guess. 2+ hours gone.</p>
+            </div>
+          </div>
+
+          <div className="story-section story-middle">
+            <div className="story-arrow">➜</div>
+            <p className="story-or">Or</p>
+          </div>
+
+          <div className="story-section story-bottom">
+            <div className="story-emoji">😎</div>
+            <div>
+              <p className="story-title">With RateHub</p>
+              <p className="story-text">4.6★ stores near you. Decide in 5 mins.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
 }
+

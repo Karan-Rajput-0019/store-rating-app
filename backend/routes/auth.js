@@ -1,6 +1,6 @@
 // backend/routes/auth.js
 const express = require("express");
-const authController = require("../controllers/authcontroller");
+const authcontroller = require("../controllers/authcontroller");
 const {
   validateSignUp,
   validatePassword,
@@ -15,11 +15,11 @@ router.post(
   "/register",
   validateSignUp,
   handleValidationErrors,
-  authController.register
+  authcontroller.register
 );
 
 // login existing user
-router.post("/login", authController.login);
+router.post("/login", authcontroller.login);
 
 // change password
 router.post(
@@ -27,7 +27,7 @@ router.post(
   authMiddleware,
   validatePassword,
   handleValidationErrors,
-  authController.changePassword
+  authcontroller.changePassword
 );
 
 module.exports = router;

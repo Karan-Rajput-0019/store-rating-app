@@ -1,7 +1,7 @@
 // backend/routes/ratings.js
 const express = require("express");
 const router = express.Router();
-const ratingController = require("../controllers/ratingController");
+const ratingcontroller = require("../controllers/ratingcontroller");
 const { authMiddleware, normalUserOnly } = require("../middleware/auth");
 const {
   validateRating,
@@ -9,23 +9,23 @@ const {
 } = require("../middleware/validation");
 
 // Public: get ratings for a store
-router.get("/store/:storeId", ratingController.getRatingsByStore);
+router.get("/store/:storeId", ratingcontroller.getRatingsByStore);
 
 // Authenticated: get ratings by a user
-router.get("/user/:userId", authMiddleware, ratingController.getRatingsByUser);
+router.get("/user/:userId", authMiddleware, ratingcontroller.getRatingsByUser);
 
 // Authenticated: get current user's rating for a store
 router.get(
   "/user-store/:storeId",
   authMiddleware,
-  ratingController.getUserStoreRating
+  ratingcontroller.getUserStoreRating
 );
 // all ratings for current user
 router.get("/me", authMiddleware, (req, res) => {
   const userId = req.user.id;
   // reuse existing function
   req.params.userId = userId;
-  ratingController.getRatingsByUser(req, res);
+  ratingcontroller.getRatingsByUser(req, res);
 });
 
 // Normal user: submit or update rating
@@ -35,7 +35,7 @@ router.post(
   normalUserOnly,
   validateRating,
   handleValidationErrors,
-  ratingController.submitRating
+  ratingcontroller.submitRating
 );
 
 // Count of ratings for current user (for streak/progress)

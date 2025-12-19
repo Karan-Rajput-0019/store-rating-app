@@ -2,8 +2,8 @@
 const express = require("express");
 const router = express.Router();
 
-const storeController = require("../controllers/storecontroller");
-const ratingController = require("../controllers/ratingController");
+const storecontroller = require("../controllers/storecontroller");
+const ratingcontroller = require("../controllers/ratingcontroller");
 const { authMiddleware, adminOnly } = require("../middleware/auth");
 const {
   validateCreateStore,
@@ -13,10 +13,10 @@ const {
 router.get(
   "/with-user-rating",
   authMiddleware,
-  storeController.getStoresWithUserRating
+  storecontroller.getStoresWithUserRating
 );
-router.get("/", storeController.getAllStores);
-router.get("/:id", storeController.getStoreById);
+router.get("/", storecontroller.getAllStores);
+router.get("/:id", storecontroller.getStoreById);
 
 router.post(
   "/",
@@ -24,17 +24,17 @@ router.post(
   adminOnly,
   validateCreateStore,
   handleValidationErrors,
-  storeController.createStore
+  storecontroller.createStore
 );
 
-router.put("/:id", authMiddleware, adminOnly, storeController.updateStore);
-router.delete("/:id", authMiddleware, adminOnly, storeController.deleteStore);
+router.put("/:id", authMiddleware, adminOnly, storecontroller.updateStore);
+router.delete("/:id", authMiddleware, adminOnly, storecontroller.deleteStore);
 
 // Use submitRating and read store_id from body
 router.post(
   "/rate",
   authMiddleware,
-  ratingController.submitRating
+  ratingcontroller.submitRating
 );
 
 module.exports = router;

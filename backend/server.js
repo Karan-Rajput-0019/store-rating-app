@@ -1,11 +1,30 @@
+// server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// CORS config
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://ratehub-z78c.onrender.com', // your frontend
+];
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  })
+);
+
+// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,7 +44,7 @@ app.use((err, req, res, next) => {
   console.error('Error:', err.stack);
   res.status(500).json({
     message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : {}
+    error: process.env.NODE_ENV === 'development' ? err.message : {},
   });
 });
 
@@ -36,10 +55,9 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Import database after all middleware setup
-const db = require('./config/database');
+// Import database (ensure it connects on require)
+require('./config/database');
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`✅ API endpoints available at http://localhost:${PORT}/api`);

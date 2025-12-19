@@ -1,29 +1,29 @@
-// backend/routes/auth.js
-const express = require("express");
-const authcontroller = require("../controllers/authcontroller");
+// routes/auth.js
+const express = require('express');
+const authcontroller = require('../controllers/authcontroller');
 const {
   validateSignUp,
   validatePassword,
   handleValidationErrors,
-} = require("../middleware/validation");
-const { authMiddleware } = require("../middleware/auth");
+} = require('../middleware/validation');
+const { authMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
 
-// register new user
+// register new user => POST /api/auth/register
 router.post(
-  "/register",
+  '/register',
   validateSignUp,
   handleValidationErrors,
   authcontroller.register
 );
 
-// login existing user
-router.post("/login", authcontroller.login);
+// login existing user => POST /api/auth/login
+router.post('/login', authcontroller.login);
 
-// change password
+// change password => POST /api/auth/change-password
 router.post(
-  "/change-password",
+  '/change-password',
   authMiddleware,
   validatePassword,
   handleValidationErrors,
@@ -31,4 +31,3 @@ router.post(
 );
 
 module.exports = router;
-

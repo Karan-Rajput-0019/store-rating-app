@@ -1,14 +1,14 @@
 // backend/routes/users.js
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const usercontroller = require('../controllers/usercontroller');
 const { authMiddleware, adminOnly } = require('../middleware/auth');
 const { validateCreateUser, handleValidationErrors } = require('../middleware/validation');
 
-router.get('/', authMiddleware, adminOnly, userController.getAllUsers);
-router.get('/:id', authMiddleware, userController.getUserById);
-router.post('/', authMiddleware, adminOnly, validateCreateUser, handleValidationErrors, userController.createUser);
-router.put('/:id', authMiddleware, adminOnly, userController.updateUser);
-router.delete('/:id', authMiddleware, adminOnly, userController.deleteUser);
+router.get('/', authMiddleware, adminOnly, usercontroller.getAllUsers);
+router.get('/:id', authMiddleware, usercontroller.getUserById);
+router.post('/', authMiddleware, adminOnly, validateCreateUser, handleValidationErrors, usercontroller.createUser);
+router.put('/:id', authMiddleware, adminOnly, usercontroller.updateUser);
+router.delete('/:id', authMiddleware, adminOnly, usercontroller.deleteUser);
 
 module.exports = router;
